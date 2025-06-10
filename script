@@ -126,13 +126,33 @@ bench setup nginx
 sudo bench setup production shaibal
 
 
+bench get-app https://github.com/frappe/lms && \
+bench --site rrksoft.local install-app lms
+
+bench get-app builder && \
+bench --site rrksoft.local install-app builder
+
+bench get-app https://github.com/frappe/helpdesk && \
+bench --site rrksoft.local install-app helpdesk
+
+
+bench get-app gameplan
+bench --site rrksoft.local install-app gameplan
+bench --site rrksoft.local add-to-hosts
+
+
+bench get-app https://github.com/frappe/wiki && \
+bench --site rrksoft.local install-app wiki
+bench --site rrksoft.local add-to-hosts
+
+bench get-app drive --branch main 
+bench --site rrksoft.local install-app drive
+
+bench get-app education
+bench --site rrksoft.local install-app education
+
+bench get-app print_designer
+bench --site rrksoft.local install-app print_designer
 
 
 
-
-
-
-bench get-app hrms
-
-
-bench get-app crm
