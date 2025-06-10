@@ -1,4 +1,4 @@
-sudo apt update
+sudo apt update -y
 sudo apt upgrade -y
 
 sudo adduser shaibal
@@ -39,18 +39,13 @@ sudo apt install fontconfig xvfb libfontconfig xfonts-base xfonts-75dpi libxrend
 sudo apt install mariadb-server mariadb-client -y
 sudo apt install pkg-config default-libmysqlclient-dev -y
 
-sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$sqlpasswrd';"
-    sudo mysql -u root -p"$sqlpasswrd" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$sqlpasswrd';"
-    sudo mysql -u root -p"$sqlpasswrd" -e "DELETE FROM mysql.user WHERE User='';"
-    sudo mysql -u root -p"$sqlpasswrd" -e "DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
-    sudo mysql -u root -p"$sqlpasswrd" -e "FLUSH PRIVILEGES;"
 
 
 sudo mariadb-secure-installation
 
 
 
-  sudo bash -c 'cat << EOF >> /etc/mysql/my.cnf
+sudo bash -c 'cat << EOF >> /etc/mysql/my.cnf
 [mysqld]
 character-set-client-handshake = FALSE
 character-set-server = utf8mb4
@@ -60,7 +55,7 @@ collation-server = utf8mb4_unicode_ci
 default-character-set = utf8mb4
 EOF'
 
-    sudo service mysql restart
+sudo service mysql restart
 
 sudo apt install curl
 
@@ -82,42 +77,58 @@ sudo python3 -m pip config --global set global.break-system-packages true
 sudo apt install python3-pip -y
 sudo pip3 install frappe-bench
 
+sudo pip3 install frappe-bench
+
 bench init --frappe-branch version-15 frappe-bench
 
 cd frappe-bench/
 
-chmod -R o+rx /home/shaibal/
+sudo chmod -R o+rx /home/shaibal/
 
 bench new-site rrksoft.local
 
-  redis-server --port 11000 --daemonize yes --bind 127.0.0.1
-    redis-server --port 12000 --daemonize yes --bind 127.0.0.1
-    redis-server --port 13000 --daemonize yes --bind 127.0.0.1
+redis-server --port 11000 --daemonize yes --bind 127.0.0.1
+redis-server --port 12000 --daemonize yes --bind 127.0.0.1
+redis-server --port 13000 --daemonize yes --bind 127.0.0.1
 
 
-  bench get-app --branch version-15 erpnext && \
+bench get-app --branch version-15 erpnext && \
 bench --site rrksoft.local install-app erpnext
-bench setup production shaibal
+
+bench get-app crm && \
+bench --site rrksoft.local install-app crm
+
+bench get-app hrms && \
+bench --site rrksoft.local install-app hrms
+
+bench version --format table
 
 
-bench --site "$site_name" scheduler enable && \
-bench --site "$site_name" scheduler resume
 
-bench setup socketio
+sudo bench setup production shaibal
+
+
+
+bench --site rrksoft.local scheduler enable && \
+bench --site rrksoft.local scheduler resume && \
+bench --site rrksoft.local set-maintenance-mode off
+
+bench setup socketion
             yes | bench setup supervisor
             bench setup redis
             sudo supervisorctl reload
 
 sudo systemctl restart redis-server
 
-sudo supervisorctl restart all
+bench setup nginx
+
+
+sudo bench setup production shaibal
 
 
 
 
-sudo bench setup prp
 
-bench get-app payments
 
 
 
