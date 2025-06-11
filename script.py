@@ -81,43 +81,37 @@ cd frappe-bench/
 sudo chmod -R o+rx /home/shaibal/
 
 #Setup new site
-bench new-site erpnet.rrksoft.com
+sudo bench new-site erpnext.zaraiyah.com
 redis-server --port 11000 --daemonize yes --bind 127.0.0.1
 redis-server --port 12000 --daemonize yes --bind 127.0.0.1
 redis-server --port 13000 --daemonize yes --bind 127.0.0.1
 
 #Setup ERPNext
-bench get-app --branch version-15 erpnext && \
-bench --site erpnet.rrksoft.com install-app erpnext
+sudo bench get-app --branch version-15 erpnext && \
+sudo bench --site erpnext.zaraiyah.com install-app erpnext
+
+#Checking app 
+bench version --format table
+
+#Setup Production Site
+sudo bench setup production shaibal
+sudo bench --site erpnext.zaraiyah.com scheduler enable && \
+sudo bench --site erpnext.zaraiyah.com scheduler resume && \
+sudo bench --site erpnext.zaraiyah.com set-maintenance-mode off
+
+#Resart Redis Server
+Sudo systemctl restart redis-server
+
+sudo bench setup nginx
+
+
+sudo bench setup production shaibal
 
 bench get-app crm && \
 bench --site rrksoft.local install-app crm
 
 bench get-app hrms && \
 bench --site rrksoft.local install-app hrms
-
-bench version --format table
-
-
-
-sudo bench setup production shaibal
-
-
-
-bench --site rrksoft.local scheduler enable && \
-bench --site rrksoft.local scheduler resume && \
-bench --site rrksoft.local set-maintenance-mode off
-
-
-
-sudo systemctl restart redis-server
-
-bench setup nginx
-
-
-sudo bench setup production shaibal
-
-
 bench get-app https://github.com/frappe/lms && \
 bench --site rrksoft.local install-app lms
 
