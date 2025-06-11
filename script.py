@@ -2,6 +2,7 @@
 sudo apt update -y
 sudo apt upgrade -y
 
+
 sudo adduser shaibal
 sudo usermod -aG sudo shaibal
 su shaibal 
