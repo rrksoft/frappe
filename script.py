@@ -2,14 +2,14 @@
 sudo apt update -y
 sudo apt upgrade -y
 
-
+# Add user
 sudo adduser shaibal
 sudo usermod -aG sudo shaibal
 su shaibal 
 cd /home/shaibal/
 
+# Install Package
 sudo apt install software-properties-common git curl whiptail -y
-
 
 sudo apt -qq install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev \
         libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev -y && \
@@ -37,16 +37,16 @@ sudo rm  wkhtmltox_0.12.6.1-3.jammy_amd64.deb
 sudo apt --fix-broken install -y
 sudo apt install fontconfig xvfb libfontconfig xfonts-base xfonts-75dpi libxrender1 -y
 
-
+# Install MariaDB
 sudo apt install mariadb-server mariadb-client -y
+
+# Install Packages
 sudo apt install pkg-config default-libmysqlclient-dev -y
 
-
-
+# MariaDB Secure Installation
 sudo mariadb-secure-installation
 
-
-
+# MySQL script
 sudo bash -c 'cat << EOF >> /etc/mysql/my.cnf
 [mysqld]
 character-set-client-handshake = FALSE
@@ -57,45 +57,38 @@ collation-server = utf8mb4_unicode_ci
 default-character-set = utf8mb4
 EOF'
 
+# Restart MySQL
 sudo service mysql restart
 
+#Install more apps
 sudo apt install curl
-
 curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-
 source ~/.profile
-
 nvm install 18
-
 sudo apt-get install npm
-
-
 sudo npm install -g yarn
 
+#Setup Python environment
 sudo python3 -m pip config --global set global.break-system-packages true
-
-
-
 sudo apt install python3-pip -y
+
+#Install Frappe Bench
 sudo pip3 install frappe-bench
 
-sudo pip3 install frappe-bench
-
+#Init Frappe branch Version 15
 bench init --frappe-branch version-15 frappe-bench
-
 cd frappe-bench/
-
 sudo chmod -R o+rx /home/shaibal/
 
-bench new-site rrksoft.local
-
+#Setup new site
+bench new-site erpnet.rrksoft.com
 redis-server --port 11000 --daemonize yes --bind 127.0.0.1
 redis-server --port 12000 --daemonize yes --bind 127.0.0.1
 redis-server --port 13000 --daemonize yes --bind 127.0.0.1
 
-
+#Setup ERPNext
 bench get-app --branch version-15 erpnext && \
-bench --site rrksoft.local install-app erpnext
+bench --site erpnet.rrksoft.com install-app erpnext
 
 bench get-app crm && \
 bench --site rrksoft.local install-app crm
@@ -115,10 +108,7 @@ bench --site rrksoft.local scheduler enable && \
 bench --site rrksoft.local scheduler resume && \
 bench --site rrksoft.local set-maintenance-mode off
 
-bench setup socketion
-            yes | bench setup supervisor
-            bench setup redis
-            sudo supervisorctl reload
+
 
 sudo systemctl restart redis-server
 
