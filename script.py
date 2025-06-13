@@ -87,7 +87,7 @@ redis-server --port 12000 --daemonize yes --bind 127.0.0.1
 redis-server --port 13000 --daemonize yes --bind 127.0.0.1
 
 #Setup ERPNext
-sudo bench get-app --branch version-15 erpnext && \
+sudo bench get-app --branch version-15 erpnext
 sudo bench --site erpnext.zaraiyah.com install-app erpnext
 
 #Checking app 
