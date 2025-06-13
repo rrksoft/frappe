@@ -100,7 +100,7 @@ sudo bench --site erpnext.zaraiyah.com scheduler resume && \
 sudo bench --site erpnext.zaraiyah.com set-maintenance-mode off
 
 #Resart Redis Server
-Sudo systemctl restart redis-server
+sudo systemctl restart redis-server
 
 sudo bench setup nginx
 
